@@ -1,0 +1,44 @@
+<artifact>
+In the context of AI, RAG stands for "Retrieval-Augmented Generation." It is a technique that combines retrieval-based methods with generative models to improve the quality and relevance of generated responses. 
+
+### Key Concepts:
+1. **Retrieval**: The system retrieves relevant information or documents from a large database based on the input query. This helps provide context and factual accuracy.
+2. **Augmentation**: The retrieved information is then used to inform the generative model, allowing it to create more accurate and contextually relevant responses.
+3. **Generation**: The generative model, often based on architectures like transformers, produces a response that integrates the retrieved content, enhancing the overall output.
+
+### Benefits:
+- **Improved Accuracy**: By leveraging external data, RAG can produce responses that are more accurate and fact-based.
+- **Contextual Relevance**: It allows the model to generate responses that are better aligned with the user's query and context.
+- **Scalability**: RAG can be applied to various domains and tasks, making it a versatile approach in AI applications such as chatbots, question-answering systems, and more.
+
+### Example Program for Indexing in a Vector Database
+
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.neighbors import NearestNeighbors
+
+# Sample documents for indexing
+documents = [
+    "AI is the simulation of human intelligence processes by machines.",
+    "Retrieval-Augmented Generation combines retrieval and generation techniques.",
+    "Generative models can produce text that is coherent and contextually relevant.",
+    "Contextual relevance is crucial for accurate responses in AI systems."
+]
+
+# Vectorizing documents
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(documents)
+
+# Indexing using Nearest Neighbors
+nbrs = NearestNeighbors(n_neighbors=1, algorithm='auto').fit(X)
+
+def index_query(query):
+    query_vec = vectorizer.transform([query])
+    distances, indices = nbrs.kneighbors(query_vec)
+    return documents[indices[0][0]], distances[0][0]
+
+# Example usage
+query = "What is Retrieval-Augmented Generation?"
+retrieved_document, distance = index_query(query)
+print(f"Retrieved Document: {retrieved_document} (Distance: {distance})")
+</artifact>
